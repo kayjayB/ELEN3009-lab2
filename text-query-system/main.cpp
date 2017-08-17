@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 
+
 using namespace std;
 int main()
 {
@@ -48,6 +49,9 @@ while (true)
 
 	return 0;
 }
+// The code does not indicate that a word has been found more than once on the same line. It just indicates
+// that the word has been found on that line. The Paragraph::contains() function would have to be modified to 
+// compensate for this. 
 
 
 		

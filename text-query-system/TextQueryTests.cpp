@@ -125,37 +125,90 @@ TEST_CASE("Word which is not queryable cannot be found") {
 //
 //// ----------------------------------------------------
 //
-//TEST_CASE("Word cannot be found in empty Paragraph") {
-//}
+TEST_CASE("Word cannot be found in empty Paragraph") {
+	Line emptyline("");
+	Paragraph testparagraph;
+	testparagraph.addLine(emptyline);
+	testparagraph.addLine(emptyline);
+    Word searchword("hello");
+	vector <int> line_Numbers;
+   CHECK_FALSE(testparagraph.contains(searchword,line_Numbers ));
+}
+
+TEST_CASE("Word not present in Paragraph cannot be found") {
+	string Line1("Many developers are of the opinion that writing the tests before the code is beneficial (test- driven development).");
+	Line testline1(Line1);
+	Line testline2("You may or may not like this approach, and there is no requirement in this course that you write your tests first (or last).");
+	Paragraph testparagraph;
+	testparagraph.addLine(testline1);
+	testparagraph.addLine(testline2);
+   Word searchword("hello");
+	vector <int> line_Numbers;
+   CHECK_FALSE(testparagraph.contains(searchword,line_Numbers ));
+}
 //
-//TEST_CASE("Word not present in Paragraph cannot be found") {
-//}
+TEST_CASE("Line number of a Word appearing once in Paragraph is returned") {
+	string Line1("Many developers are of the opinion that writing the tests before the code is beneficial (test- driven development).");
+	Line testline1(Line1);
+	Line testline2("You may or may not like this approach, and there is no requirement in this course that you write your tests first (or last).");
+	Paragraph testparagraph;
+	testparagraph.addLine(testline1);
+	testparagraph.addLine(testline2);
+   Word searchword("approach");
+	vector <int> line_Numbers;
+	testparagraph.contains(searchword,line_Numbers );
+   CHECK(line_Numbers[0]==2);
+    Word searchword2("opinion");
+   testparagraph.contains(searchword2,line_Numbers );
+  CHECK(line_Numbers[0]==1);
+   
+
+}
 //
-//TEST_CASE("Line number of a Word appearing once in Paragraph is returned") {
-//}
+TEST_CASE("Line numbers of a Word appearing in multiple Lines of a Paragraph is returned") {
+	string Line1("Many developers are of the opinion that writing the tests before the code is beneficial (test- driven development).");
+	Line testline1(Line1);
+	Line testline2("You may or may not like this opinion approach, and there is no requirement in this course that you write your tests first (or last).");
+	Paragraph testparagraph;
+	testparagraph.addLine(testline1);
+	testparagraph.addLine(testline2);
+   Word searchword("opinion");
+	vector <int> line_Numbers;
+	testparagraph.contains(searchword,line_Numbers );
+   CHECK(line_Numbers[0]==1);
+   CHECK( line_Numbers[1]==2);
+   
+}
 //
-//TEST_CASE("Line numbers of a Word appearing in multiple Lines of a Paragraph is returned") {
-//}
-//
-//TEST_CASE("Line numbers returned account for an empty Line") {
+TEST_CASE("Line numbers returned account for an empty Line") {
 //// If the first line of the paragraph is empty, and the word being searched for
 //// is on the second line, the vector returned should be: [2]
-//}
+	Line testline1("");
+	Line testline2("You may or may not like this approach, and there is no requirement in this course that you write your tests first (or last).");
+	Paragraph testparagraph;
+	testparagraph.addLine(testline1);
+	testparagraph.addLine(testline2);
+   Word searchword("approach");
+  // Word searchword2("code");
+	vector <int> line_Numbers;
+	testparagraph.contains(searchword,line_Numbers );
+   CHECK( line_Numbers[0]==2);
+}
 //
 //// ----------------------------------------------------
 //
 //// Integration test - both Paragraph and File Reader are tested together
-//TEST_CASE("File can be read into Paragraph and successfully searched") {
-//	// make sure that alice.txt is in the right location for this to work!
-//	FileReader filereader("alice.txt");
-//	Paragraph paragraph;
-//	filereader.readFileInto(paragraph);
-//	Word search_word("Daddy");
-//	vector<int> line_numbers;
-//	CHECK(paragraph.contains(search_word, line_numbers));
-//	vector<int> expected_line_numbers;
-//	expected_line_numbers.push_back(1);
-//	expected_line_numbers.push_back(4);
-//	expected_line_numbers.push_back(6);
-//	CHECK(expected_line_numbers == line_numbers);
-//}
+TEST_CASE("File can be read into Paragraph and successfully searched") {
+	// make sure that alice.txt is in the right location for this to work!
+	FileReader filereader("alice.txt");
+	Paragraph paragraph;
+	filereader.readFileInto(paragraph);
+	Word search_word("Daddy");
+	vector<int> line_numbers;
+	CHECK(paragraph.contains(search_word, line_numbers));
+	vector<int> expected_line_numbers;
+	expected_line_numbers.push_back(1);
+	expected_line_numbers.push_back(4);
+	expected_line_numbers.push_back(6);
+	CHECK(expected_line_numbers == line_numbers);
+}

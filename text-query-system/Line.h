@@ -1,8 +1,10 @@
 #ifndef LINE_H
 #define LINE_H
 
+
 #include "Word.h"
 #include <string>
+#include <vector>
 using namespace std;
 
 class Line
@@ -16,7 +18,8 @@ public:
 	bool contains(const Word& search_word) const;
 
 private:		
-
+vector <Word> _line;
+void seperateString(vector<Word>& words_of_line, const string& delimiter, string& line_copy);
 };
 
 #endif

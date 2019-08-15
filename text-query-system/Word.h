@@ -1,13 +1,14 @@
 #ifndef WORD_H
 #define WORD_H
 
+
 #include <string>
+#include <cctype>
 using namespace std;
 
 // empty classes to represent different exceptions
 class WordContainsNoLetters {};
 class WordContainsSpace {};
-
 
 class Word
 {
@@ -24,7 +25,12 @@ public:
 	bool isQueryable() const;
 
 private:	
-	string _word;	
+	string _word;
+	Word lower_case(const string& entered_Word) const;
+	Word remove_punctuation(const string& entered_Word) const;
+	Word remove_spaces(const string& entered_Word) const;
+	bool no_spaces() const;
+	bool not_only_punctuation() const;	
 };
 
 #endif

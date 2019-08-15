@@ -20,6 +20,8 @@ public:
 
 private:	
 
+vector <Line> _paragraph;
+
 };
 
 #endif
